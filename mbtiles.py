@@ -37,11 +37,17 @@ class Mbtiles:
         sql = 'SELECT tile_id FROM images'
         return c.execute(sql)
 
+    def gettilesiter(self, zoom):
+        c = self.conn.cursor()
+        sql = 'SELECT zoom_level AS z, tile_column AS x, tile_row AS y FROM tiles WHERE zoom_level=?'
+        return c.execute(sql, (zoom,))
+
     def fetchtiles(self, tile_id):
         c = self.conn.cursor()
         sql = 'SELECT zoom_level AS z, tile_column AS x, tile_row AS y FROM map WHERE tile_id=?'
         c.execute(sql, (tile_id,))
         return c.fetchall()
+
 
 if __name__ == '__main__':
     import sys
